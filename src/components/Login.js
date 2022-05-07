@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
@@ -8,9 +8,18 @@ import { UserContext } from "../contexts/userContext";
 export default function Login() {
   const navigate = useNavigate();
 
+  const userTokenStorage = localStorage.getItem("token");
+  const userNameStorage = localStorage.getItem("name");
+
   const [userLogin, setUserLogin] = useState({ email: "", password: "" });
 
-  const { userData, setUserData } = useContext(UserContext);
+  const { userInfos, setUserInfos } = useContext(UserContext);
+
+  useEffect(() => {
+    if (userTokenStorage && userNameStorage) {
+      navigate("/home");
+    }
+  }, [navigate, userTokenStorage, userNameStorage])
 
   function handleInputs(e, property) {
     setUserLogin({ ...userLogin, [property]: e.target.value })
@@ -18,12 +27,14 @@ export default function Login() {
 
   function sendData(e) {
     e.preventDefault();
+
     const URL = "http://localhost:5000/sign-in"
     const promise = axios.post(URL, userLogin);
     promise.then((response) => {
       const { data } = response;
-      const token = data.token;
-      setUserData(token);
+      setUserInfos(data);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('name', data.name);
       navigate("/home");
     });
 

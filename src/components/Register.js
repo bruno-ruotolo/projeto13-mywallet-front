@@ -9,6 +9,7 @@ export default function Register() {
   const [userRegister, setUserRegister] = useState({ name: "", email: "", password: "", passwordConfirm: "" });
 
   function handleInputs(e, property) {
+
     setUserRegister({ ...userRegister, [property]: e.target.value })
   }
 
@@ -22,7 +23,12 @@ export default function Register() {
     });
 
     promise.catch((e) => {
-      alert(e.response.data);
+      if (e.response.data[0] === "\"passwordConfirm\" must be [ref:password]") {
+        alert("Verique se as senhas são correspondentes");
+      } else {
+        alert(e.response.data);
+      }
+
     });
   }
 
@@ -51,8 +57,8 @@ export default function Register() {
           placeholder="Senha"
           value={userRegister.password}
           onChange={(e) => handleInputs(e, "password")}
-          pattern={/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\d)[A-Za-z\d]{6,}$/}
-          title={"No mínimo 6 caracteres com ao menos uma maiscula, uma minuscula e um número"}
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\d)[A-Za-z\d]{6,}$"
+          title="No mínimo 6 caracteres com ao menos uma maiscula, uma minuscula e um número"
           autoComplete="on"
           required
         />
@@ -62,8 +68,8 @@ export default function Register() {
           placeholder="Confirme a Senha"
           value={userRegister.passwordConfirm}
           onChange={(e) => handleInputs(e, "passwordConfirm")}
-          pattern={/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\d)[A-Za-z\d]{6,}$/}
-          title={"No mínimo 6 caracteres com ao menos uma maiscula, uma minuscula e um número"}
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\d)[A-Za-z\d]{6,}$"
+          title="No mínimo 6 caracteres com ao menos uma maiscula, uma minuscula e um número"
           autoComplete="on"
           required
         />

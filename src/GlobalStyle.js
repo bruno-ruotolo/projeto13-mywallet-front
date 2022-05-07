@@ -53,7 +53,11 @@ table {
 }
 
 body{
+	font-family: 'Raleway', sans-serif;
   background-color: #8C11BE;
+	display: flex;
+	align-items: center;
+	justify-content:center;
 	/* font-family: 'Saira Stencil One', cursive; */
 }
 `
