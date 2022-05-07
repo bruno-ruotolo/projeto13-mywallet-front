@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { useState, useEffect, useContext } from "react"
+import { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
@@ -52,7 +52,7 @@ export default function Login() {
           required />
         <button>Entrar</button>
       </form>
-      <p>Primeira vez? Cadastre-se!</p>
+      <p onClick={() => navigate("/sign-up")}>Primeira vez? Cadastre-se!</p>
     </LoginSection>
   )
 }
