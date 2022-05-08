@@ -2,16 +2,17 @@ import styled from "styled-components"
 
 export default function Transactions(props) {
   const { description, status, value, date } = props;
-  console.log(status)
 
   return (
-    <TransactionsDiv status={status}>
-      <div>
-        <small>{date}</small>
-        <p>{description}</p>
-      </div>
-      <strong>{value}</strong>
-    </TransactionsDiv>
+    <>
+      <TransactionsDiv status={status}>
+        <div>
+          <small>{date}</small>
+          <p>{description}</p>
+        </div>
+        <strong>{value}</strong>
+      </TransactionsDiv>
+    </>
   )
 }
 

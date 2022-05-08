@@ -11,9 +11,7 @@ export default function Home() {
 
   const { userInfos: { token, name } } = useContext(UserContext);
   const [transactionsInfos, setTransactionsInfos] = useState([]);
-  console.log(transactionsInfos);
-
-  console.log(token);
+  const [balance, setBalance] = useState({ value: 0, status: true });
 
   useEffect(() => {
     const URL = "http://localhost:5000/home"
@@ -32,10 +30,9 @@ export default function Home() {
     promise.catch(e => {
       alert(e.response.data);
       navigate("/")
-
       console.log(e.response)
     })
-  }, [token]);
+  }, [token, navigate]);
 
   function logout() {
     const config = {
@@ -61,6 +58,17 @@ export default function Home() {
     navigate("/");
   }
 
+  useEffect(() => {
+    let total = 0
+    transactionsInfos.map(({ value, status }) => {
+      status ? total += parseFloat(value) : total -= parseFloat(value)
+    });
+
+    total < 0
+      ? setBalance({ status: false, value: total })
+      : setBalance({ status: true, value: total });
+  }, [transactionsInfos]);
+  console.log(balance);
   return (
     <HomeSection>
       <Header>
@@ -70,41 +78,39 @@ export default function Home() {
 
       <MainCointeiner>
         <Main>
-          {/* <span>Não há registros de entrada ou saída</span> */}
           {transactionsInfos.length === 0
             ? <span>Não há registros de entrada ou saída</span>
-            : (transactionsInfos.map((transaction, index) => {
-              const { description, status, value, date } = transaction;
-              return (
-                <>
-                  <Transactions
-                    key={index}
-                    description={description}
-                    status={status}
-                    value={value}
-                    date={date}
-                  />
-
-                  <MainBottom>
-                    <p>Saldo</p>
-                    <strong>2849,96</strong>
-                  </MainBottom>
-                </>
-              )
-            })
-
-
-            )}
+            : (
+              transactionsInfos.map((transaction, index) => {
+                const { description, status, value, date } = transaction;
+                return (
+                  <div key={Date.now() * Math.random()}>
+                    <Transactions
+                      key={index}
+                      description={description}
+                      status={status}
+                      value={value}
+                      date={date}
+                    />
+                    <MainBottom balanceStatus={balance.status}>
+                      <p>Saldo</p>
+                      <strong>{balance.value.toFixed(2).toString().replace(".", ",").replace("-", "")}</strong>
+                    </MainBottom>
+                  </div>
+                )
+              })
+            )
+          }
 
         </Main>
       </MainCointeiner>
       <Footer>
-        <Button>
+        <Button onClick={() => navigate("/new-entry")}>
           <ion-icon name="add-circle-outline"></ion-icon>
           <p>Nova entrada</p>
         </Button>
 
-        <Button>
+        <Button onClick={() => navigate("/new-exit")}>
           <ion-icon name="remove-circle-outline"></ion-icon>
           <p>Nova saída</p>
         </Button>
@@ -196,8 +202,7 @@ const MainBottom = styled.div`
     font-weight: 400;
     font-size: 17px;
     line-height: 20px;
-
-    color: #03AC00;
+    color: ${({ balanceStatus }) => balanceStatus ? "#03AC00" : "#C70000"};
   }
 `
 
