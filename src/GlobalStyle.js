@@ -58,8 +58,6 @@ body{
 	display: flex;
 	align-items: center;
 	justify-content:center;
-	/* font-family: 'Saira Stencil One', cursive; */
 }
 `
-
 export default GlobalStyle;

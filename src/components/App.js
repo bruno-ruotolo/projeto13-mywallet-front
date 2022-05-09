@@ -4,9 +4,9 @@ import GlobalStyle from "../GlobalStyle";
 import Login from "./Login";
 import UserProvider from "../contexts/userContext";
 import Register from "./Register";
-import Home from "./Home/Home";
-import NewEntry from "./NewEntry";
-import NewExit from "./NewExit";
+import Home from "./Home/"
+import NewEntry from "./Transactions/NewEntry";
+import NewExit from "./Transactions/NewExit";
 
 export default function App() {
   return (

@@ -16,7 +16,6 @@ export default function UserProvider({ children }) {
     }
   }
 
-
   return (
     <UserContext.Provider value={{ userInfos, setUserInfos }}>
       {children}

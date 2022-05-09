@@ -1,34 +1,64 @@
 import { useState } from "react";
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import Swal from "sweetalert2";
+import { Rings } from "react-loader-spinner";
+
+import { RegisterSection } from "./style";
 
 export default function Register() {
   const navigate = useNavigate();
 
   const [userRegister, setUserRegister] = useState({ name: "", email: "", password: "", passwordConfirm: "" });
+  const [registerStatus, setRegisterStatus] = useState(false);
 
   function handleInputs(e, property) {
-
     setUserRegister({ ...userRegister, [property]: e.target.value })
   }
 
   function sendData(e) {
     e.preventDefault();
+    setRegisterStatus(true);
     const URL = "http://localhost:5000/sign-up"
     const promise = axios.post(URL, userRegister);
     promise.then((response) => {
-      console.log(response.data)
+      Swal.fire({
+        icon: 'success',
+        title: "Cadastro Realizado",
+        width: 326,
+        heigth: 200
+      });
+      setRegisterStatus(false);
       navigate("/");
     });
 
     promise.catch((e) => {
       if (e.response.data[0] === "\"passwordConfirm\" must be [ref:password]") {
-        alert("Verique se as senhas são correspondentes");
+        Swal.fire({
+          icon: 'error',
+          title: "Senhas inconsistentes",
+          text: 'Verique se as senhas são correspondentes',
+          width: 326,
+          heigth: 200
+        });
+      } else if (e.response.data[0] === "\"email\" must be a valid email") {
+        Swal.fire({
+          icon: 'error',
+          title: "E-mail Incorreto",
+          text: 'Verique se digitou seu e-mail corretamente',
+          width: 326,
+          heigth: 200
+        });
       } else {
-        alert(e.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: e.response.data,
+          text: 'Verifique seus dados e tente novamente',
+          width: 326,
+          heigth: 200
+        });
       }
-
+      setRegisterStatus(false);
     });
   }
 
@@ -42,6 +72,7 @@ export default function Register() {
           value={userRegister.name}
           onChange={(e) => handleInputs(e, "name")}
           required
+          disabled={registerStatus}
         />
 
         <input
@@ -50,6 +81,7 @@ export default function Register() {
           value={userRegister.email}
           onChange={(e) => handleInputs(e, "email")}
           required
+          disabled={registerStatus}
         />
 
         <input
@@ -61,6 +93,7 @@ export default function Register() {
           title="No mínimo 6 caracteres com ao menos uma maiscula, uma minuscula e um número"
           autoComplete="on"
           required
+          disabled={registerStatus}
         />
 
         <input
@@ -72,64 +105,12 @@ export default function Register() {
           title="No mínimo 6 caracteres com ao menos uma maiscula, uma minuscula e um número"
           autoComplete="on"
           required
+          disabled={registerStatus}
         />
 
-        <button>Cadastrar</button>
+        <button disabled={registerStatus}>{!registerStatus ? "Cadastrar" : <Rings color="#ffffff" />}</button>
       </form>
       <p onClick={() => navigate("/")}>Já tem uma conta? Entre agora!</p>
     </RegisterSection>
   )
 }
-
-const RegisterSection = styled.section`
-display: flex;
-  flex-direction: column;
-  align-items:center;
-  justify-content:center;
-  height:100vh;
-  
-  h1 {
-    font-family: 'Saira Stencil One', cursive;
-    font-weight: 400;
-    font-size: 32px;
-    line-height: 50px;
-    color: #FFFFFF;
-    margin-bottom: 24px;
-  }
-
-  input {
-    display: flex;
-    justify-content: center;
-    width: 326px;
-    height: 58px;
-    background: #FFFFFF;
-    border-radius: 5px;
-    border:none;
-    margin-bottom: 13px;
-    padding-left:15px;
-    font-size: 20px;
-    color: #000000;
-  }
-
-  button {
-    width: 326px;
-    height: 46px;
-    background-color: #A328D6;
-    border-radius: 5px;
-    border:none;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 23px;
-    color: #FFFFFF;
-  }
-
-  p {
-    font-style: normal;
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 18px;
-    color: #FFFFFF;
-    margin-top: 36px;
-    font-family: 'Raleway', sans-serif
-  }
-`
