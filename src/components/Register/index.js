@@ -19,14 +19,13 @@ export default function Register() {
   function sendData(e) {
     e.preventDefault();
     setRegisterStatus(true);
-    const URL = "http://localhost:5000/sign-up"
+    const URL = "https://projeto13-mywallet-back-bruno.herokuapp.com/sign-up"
     const promise = axios.post(URL, userRegister);
     promise.then((response) => {
       Swal.fire({
         icon: 'success',
         title: "Cadastro Realizado",
         width: 326,
-        heigth: 200
       });
       setRegisterStatus(false);
       navigate("/");
@@ -38,24 +37,21 @@ export default function Register() {
           icon: 'error',
           title: "Senhas inconsistentes",
           text: 'Verique se as senhas são correspondentes',
-          width: 326,
-          heigth: 200
+          width: 326
         });
       } else if (e.response.data[0] === "\"email\" must be a valid email") {
         Swal.fire({
           icon: 'error',
           title: "E-mail Incorreto",
           text: 'Verique se digitou seu e-mail corretamente',
-          width: 326,
-          heigth: 200
+          width: 326
         });
       } else {
         Swal.fire({
           icon: 'error',
           title: e.response.data,
           text: 'Verifique seus dados e tente novamente',
-          width: 326,
-          heigth: 200
+          width: 326
         });
       }
       setRegisterStatus(false);

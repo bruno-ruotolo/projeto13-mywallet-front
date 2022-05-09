@@ -19,7 +19,7 @@ export default function NewExit() {
     e.preventDefault();
     setExitStatus(true);
 
-    const URL = "http://localhost:5000/new-exit"
+    const URL = "https://projeto13-mywallet-back-bruno.herokuapp.com/new-exit"
     const config = {
       headers: {
         Authorization: `Bearer ${token}`
@@ -30,8 +30,7 @@ export default function NewExit() {
       Swal.fire({
         icon: 'success',
         title: "Saída Realizada",
-        width: 326,
-        heigth: 200
+        width: 326
       });
       setExitStatus(false);
       navigate("/home");
@@ -42,8 +41,7 @@ export default function NewExit() {
           icon: "warning",
           title: "Sessão Experidada",
           text: 'Faça Login Novamente',
-          width: 326,
-          heigth: 200
+          width: 326
         });
         navigate("/");
       } else {

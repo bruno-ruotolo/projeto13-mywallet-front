@@ -19,7 +19,7 @@ export default function NewEntry() {
     e.preventDefault();
     setEntryStatus(true);
 
-    const URL = "http://localhost:5000/new-entry"
+    const URL = "https://projeto13-mywallet-back-bruno.herokuapp.com/new-entry"
     const config = {
       headers: {
         Authorization: `Bearer ${token}`
@@ -30,8 +30,7 @@ export default function NewEntry() {
       Swal.fire({
         icon: 'success',
         title: "Entrada Realizada",
-        width: 326,
-        heigth: 200
+        width: 326
       });
       setEntryStatus(false);
       navigate("/home");
@@ -42,8 +41,7 @@ export default function NewEntry() {
           icon: "warning",
           title: "Sessão Experidada",
           text: 'Faça Login Novamente',
-          width: 326,
-          heigth: 200
+          width: 326
         });
         navigate("/");
       } else {
@@ -51,8 +49,7 @@ export default function NewEntry() {
           icon: 'error',
           title: "Algo deu Errado",
           text: 'Verifique seus dados e tente novamente',
-          width: 326,
-          height: 200
+          width: 326
         });
       }
       setEntryStatus(false);

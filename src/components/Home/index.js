@@ -19,7 +19,7 @@ export default function Home() {
 
   useEffect(() => {
     setHomeStatus(false);
-    const URL = "http://localhost:5000/home"
+    const URL = "https://projeto13-mywallet-back-bruno.herokuapp.com/home"
     const config = {
       headers: {
         Authorization: `Bearer ${token}`
@@ -38,8 +38,7 @@ export default function Home() {
         icon: "warning",
         title: "Sessão Experidada",
         text: 'Faça Login Novamente',
-        width: 326,
-        heigth: 200
+        width: 326
       })
       navigate("/");
     })
@@ -52,7 +51,7 @@ export default function Home() {
         Authorization: `Bearer ${token}`
       }
     }
-    const URL = "http://localhost:5000/home"
+    const URL = "https://projeto13-mywallet-back-bruno.herokuapp.com/home"
     axios.put(URL, { status: false }, config);
     localStorage.removeItem("token");
     localStorage.removeItem("name");

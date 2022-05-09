@@ -33,7 +33,7 @@ export default function Login() {
     e.preventDefault();
     setInputsStatus(true);
 
-    const URL = "http://localhost:5000/sign-in"
+    const URL = "https://projeto13-mywallet-back-bruno.herokuapp.com/sign-in"
     const promise = axios.post(URL, userLogin);
     promise.then((response) => {
       const { data } = response;
@@ -49,8 +49,7 @@ export default function Login() {
         icon: 'error',
         title: e.response.data,
         text: 'Verifique seus dados e tente novamente',
-        width: 326,
-        height: 200
+        width: 326
       });
       setInputsStatus(false);
     });
